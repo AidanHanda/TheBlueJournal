@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+  mongodb:
+    image: 'mongo:latest'
+    volumes:
+      - type: bind
+        source: ./mongodb_data/
+        target: /data/db
+  parse:
+    image: 'parseplatform/parse-server'
+    ports:
+      - '1337:1337'
+    volumes:
+      - type: bind
+        source: ./parse/cloud-code
+        target: /parse-server/cloud
+      - type: bind
+        source: ./parse/config
+        target: /parse-server/config
+    depends_on:
+      - mongodb
+    environment:
+      - PARSE_SERVER_APPLICATION_ID=com.thebluejournal
+      - PARSE_SERVER_MASTER_KEY=the-amazing-blue-journal-secret
+      - PARSE_SERVER_DATABASE_URI=mongodb://mongodb:27017/parse
+
+  parse-dashboard:
+    image: 'parseplatform/parse-dashboard'
+    ports:
+      - '80:4040'
+      - '443:4040'
+    volumes:
+      - type: bind
+        source: ./parse-dashboard-config.json
+        target: /src/Parse-Dashboard/parse-dashboard-config.json
+    depends_on:
+      - parse
+    command: --allowInsecureHTTP true
+volumes:
+  mongodb_data:
+    driver: local
+  parse_data:
+    driver: local
+  parse_dashboard_data:
+    driver: local

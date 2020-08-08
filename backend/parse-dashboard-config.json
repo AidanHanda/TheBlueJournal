@@ -1,0 +1,21 @@
+{
+    "allowInsecureHTTP": true,
+    "apps": [
+        {
+            "serverURL": "http://localhost:1337/parse",
+            "appId": "com.thebluejournal",
+            "masterKey": "the-amazing-blue-journal-secret",
+            "appName": "The Blue Journal",
+            "iconName": "",
+            "primaryBackgroundColor": "#76b4bd",
+            "secondaryBackgroundColor": "#bdeae"
+        }
+    ],
+    "users": [
+        {
+            "user":"bhavika",
+            "pass":"bhavika"
+        }
+    ],
+    "iconsFolder": "icons"
+}
