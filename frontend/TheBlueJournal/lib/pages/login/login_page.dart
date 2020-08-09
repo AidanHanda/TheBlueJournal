@@ -44,16 +44,15 @@ class _LoginPageState extends State<LoginPage> {
           response = await user.login();
           print('Signed in');
         } else {
-          response = await user.signUp();
-          print('Signed up user:');
+          response = await user.create();
+          response = await user.login();
+          print('Created User!');
         }
         setState(() {
           _isLoading = false;
         });
         if (response.success) {
-          if (_formMode == FormMode.LOGIN) {
-            Navigator.pop(context, true);
-          }
+          Navigator.pop(context, true);
         } else {
           setState(() {
             _isLoading = false;
@@ -98,16 +97,12 @@ class _LoginPageState extends State<LoginPage> {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            title: const Text('Parse Server demo'),
-          ),
           body: Stack(
-            children: <Widget>[
-              _showBody(),
-              _showCircularProgress(),
-            ],
-          )),
+        children: <Widget>[
+          _showBody(),
+          _showCircularProgress(),
+        ],
+      )),
     );
   }
 
@@ -126,16 +121,21 @@ class _LoginPageState extends State<LoginPage> {
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
-          child: ListView(
-            shrinkWrap: true,
-            children: <Widget>[
-              _showLogo(),
-              _showEmailInput(),
-              _showPasswordInput(),
-              _showPrimaryButton(),
-              _showSecondaryButton(),
-              _showErrorMessage(),
-            ],
+          child: Center(
+            child: Container(
+              width: 400,
+              child: ListView(
+                shrinkWrap: true,
+                children: <Widget>[
+                  _showLogo(),
+                  _showEmailInput(),
+                  _showPasswordInput(),
+                  _showPrimaryButton(),
+                  _showSecondaryButton(),
+                  _showErrorMessage(),
+                ],
+              ),
+            ),
           ),
         ));
   }
@@ -161,13 +161,11 @@ class _LoginPageState extends State<LoginPage> {
     return Hero(
       tag: 'hero',
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(0.0, 70.0, 0.0, 0.0),
-        child: CircleAvatar(
-          backgroundColor: Colors.transparent,
-          radius: 48.0,
-          child: Image.asset('assets/parse.png'),
-        ),
-      ),
+          padding: const EdgeInsets.fromLTRB(0.0, 70.0, 0.0, 0.0),
+          child: Center(
+            child: Text("The Blue Journal",
+                style: TextStyle(color: Colors.blue, fontSize: 30)),
+          )),
     );
   }
 
@@ -243,58 +241,4 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ));
   }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Center(
-  //     child: Container(
-  //       width: 300,
-  //       child: Column(
-  //         mainAxisAlignment: MainAxisAlignment.center,
-  //         crossAxisAlignment: CrossAxisAlignment.center,
-  //         children: [
-  //           Text(
-  //             "The Blue Journal",
-  //             style: TextStyle(fontSize: 30, color: Colors.blue),
-  //           ),
-  //           SizedBox(
-  //             height: 5,
-  //           ),
-  //           TextField(
-  //             autocorrect: false,
-  //             decoration: InputDecoration(
-  //               border: OutlineInputBorder(),
-  //               labelText: 'username',
-  //             ),
-  //           ),
-  //           SizedBox(
-  //             height: 10,
-  //           ),
-  //           TextField(
-  //             autocorrect: false,
-  //             obscureText: true,
-  //             decoration: InputDecoration(
-  //               border: OutlineInputBorder(),
-  //               labelText: 'password',
-  //             ),
-  //           ),
-  //           SizedBox(
-  //             height: 10,
-  //           ),
-  //           RaisedButton(
-  //             onPressed: () {
-  //               print("Submitted!");
-  //             },
-  //             color: Colors.blue,
-  //             child: Text(
-  //               "Submit",
-  //               style: TextStyle(color: Colors.white),
-  //             ),
-  //           )
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
-
 }
